@@ -11,11 +11,15 @@
   </head>
   <body>
     <div class="wrapper">
+
+      <!-- click Tab -->
       <ul class="nav clearfix">
         <li>HOME</li>
         <li>NEWS</li>
         <li>MYPAGE</li>
       </ul>
+
+      <!-- change content -->
       <ul class="contents">
         <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
         <li class="is-hidden">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</li>
@@ -30,6 +34,28 @@
       // .eq() 引数に応じたindexの要素を指定します。
       // .addClass() クラスを追加します。
       // .removeClass() クラスを削除します。
+
+      $(function () {
+        // nav , contents要素を取得
+        let $tab = $('.nav').children('li');
+        let $contents = $('.contents').children('li');
+
+        // clickイベントの定義
+        $tab.on('click',function(){
+          let indexNumber = $tab.index(this);
+          changeContents(indexNumber);
+        });
+
+        // 処理内容を定義
+        function changeContents(num) {
+          // 処理の流れ ( clickすると全ての要素をhidden　→ clickした要素のみclassを外して表示)
+          // 一度全てのcontentsをhiddenにする
+          $contents.addClass('is-hidden');
+          // clickした要素のみclassを外し表示する
+          // eq() = インデックス番号を指定することで特定の要素だけを取得出来る。
+          $contents.eq(num).removeClass('is-hidden');
+        }
+      });
     </script>
   </body>
 </html>

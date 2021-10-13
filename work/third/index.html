@@ -36,23 +36,16 @@
       // .removeClass() クラスを削除します。
 
       $(function () {
-        // nav , contents要素を取得
-        let $tab = $('.nav').children('li');
-        let $contents = $('.contents').children('li');
+        var $tab = $('.nav').children('li');
+        var $contents = $('.contents').children('li');
 
-        // clickイベントの定義
-        $tab.on('click',function(){
-          let indexNumber = $tab.index(this);
+        $tab.click(function(){
+          var indexNumber = $tab.index(this);
           changeContents(indexNumber);
         });
 
-        // 処理内容を定義
         function changeContents(num) {
-          // 処理の流れ ( clickすると全ての要素をhidden　→ clickした要素のみclassを外して表示)
-          // 一度全てのcontentsをhiddenにする
           $contents.addClass('is-hidden');
-          // clickした要素のみclassを外し表示する
-          // eq() = インデックス番号を指定することで特定の要素だけを取得出来る。
           $contents.eq(num).removeClass('is-hidden');
         }
       });

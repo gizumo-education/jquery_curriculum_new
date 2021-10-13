@@ -31,21 +31,18 @@
     // .fadeOut() 一定時間かけてフェードアウトする。
 
     $(function () {
-      // clickイベントの定義
-      $('.modal-show').on('click',function(){
+      $('.modal-show').click(function(){
         modalIn();
       });
-
-      $('.modal-close').on('click',function(){
+      $('.modal-close').click(function(){
         modalOut();
       });
-      // 変数を定義
-      let $modal = $('.modal');
-      // 処理内容を記述
+
+      var $modal = $('.modal');
+
       function modalIn() {
         $modal.fadeIn();
       };
-
       function modalOut() {
         $modal.fadeOut();
       }

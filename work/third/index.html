@@ -36,17 +36,16 @@
       // .removeClass() クラスを削除します。
 
       $(function () {
-        var $tab = $('.nav').children('li');
-        var $contents = $('.contents').children('li');
+        var tab = $('.nav li');
+        var contents = $('.contents li');
 
-        $tab.click(function(){
-          var indexNumber = $tab.index(this);
+        tab.click(function(){
+          var indexNumber = $(this).index();
           changeContents(indexNumber);
         });
 
         function changeContents(num) {
-          $contents.addClass('is-hidden');
-          $contents.eq(num).removeClass('is-hidden');
+          contents.addClass('is-hidden').eq(num).removeClass('is-hidden');
         }
       });
     </script>

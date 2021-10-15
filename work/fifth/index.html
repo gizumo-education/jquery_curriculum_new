@@ -104,13 +104,14 @@
 
     $(function () {
       $('.select').change(function () {
-        let select = $(this);
+        var select = $(this);
         changeSelect(select);
       });
 
       function changeSelect(selectList) {
-        let selectVal = selectList.val();
-        let categoryList = $('.list').children('li');
+        var selectVal = selectList.val();
+        var categoryList = $('.list').children('li');
+
         if (selectVal === 'all') {
           categoryList.show();
         } else {

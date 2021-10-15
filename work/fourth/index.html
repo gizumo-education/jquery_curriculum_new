@@ -59,10 +59,8 @@
       // .stop() 現在動作中のアニメーション処理を全て中止します。
 
       $(function () {
-        // 変数の定義
-        let $menu = $('.menu__list').children('li');
-        // 第一引数にhover時の処理,第二引数のhoverが離れた時の処理
-        $menu.hover(function() {
+        var menu = $('.menu__list').children('li');
+        menu.hover(function() {
           $(this).children('ul').stop().slideDown();
         },
         function() {

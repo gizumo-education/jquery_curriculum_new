@@ -95,6 +95,8 @@
 
       // ajaxで情報取得
       function getBooksData() {
+        $('.lists').empty();
+        $('.message').empty();
         $.ajax({
           url: 'https://app.rakuten.co.jp/services/api/BooksTotal/Search/20170404',
           type: 'GET',
@@ -125,8 +127,6 @@
 
       // 検索ボタンをクリックしたときの挙動
       $('[data-js="search-btn"]').on('click', function () {
-        $('.lists').empty();
-        $('.message').empty();
         keyword = $('[data-js="search-word"]').val();
         currentPage = 1;
         getBooksData();
@@ -136,11 +136,7 @@
       $(document).on('click', '[data-js="page-next"]', function (e) {
         e.preventDefault();
         // disabledの場合は以下を実行しない
-        if ($(this).attr('class') === 'btn-item disabled') {
-          return false;
-        }
-        $('.lists').empty();
-        $('.message').empty();
+        if ($(this).hasClass('disabled')) return;
         currentPage++;
         getBooksData();
       })
@@ -149,29 +145,26 @@
       $(document).on('click', '[data-js="page-prev"]', function (e) {
         e.preventDefault();
         // disabledの場合は以下を実行しない
-        if ($(this).attr('class') === 'btn-item disabled') {
-          return false;
-        }
-        $('.lists').empty();
-        $('.message').empty();
+        if ($(this).hasClass('disabled')) return; 
         currentPage--;
         getBooksData();
-      })
+      });
 
       // 所得した本のデータを表示
       function showBooks(data) {
         var listItems = '';
         $.each(data.Items, function (index, item) {
-          listItems += '<li class="lists__item">' +
+          listItems += 
+          '<li class="lists__item">' +
             '<div class="lists__item__inner">' +
-            '<a href="' + item.Item.itemUrl + '" class="lists__item__link" target="_blank">' +
-            '<img src="' + item.Item.largeImageUrl + '" class="lists__item__img" alt="商品画像">' +
-            '<p class="lists__item__detail">作品名：' + item.Item.title + '</p>' +
-            '<p class="lists__item__detail">作者：' + item.Item.author + '</p>' +
-            '<p class="lists__item__detail">出版社：' + item.Item.publisherName + '</p>' +
-            '</a>' +
+              '<a href="' + item.Item.itemUrl + '" class="lists__item__link" target="_blank">' +
+                '<img src="' + item.Item.largeImageUrl + '" class="lists__item__img" alt="商品画像">' +
+                '<p class="lists__item__detail">作品名：' + item.Item.title + '</p>' +
+                '<p class="lists__item__detail">作者：' + item.Item.author + '</p>' +
+                '<p class="lists__item__detail">出版社：' + item.Item.publisherName + '</p>' +
+              '</a>' +
             '</div>' +
-            '</li>'
+          '</li>'
         })
         $('.lists').append(listItems);
       }
@@ -180,16 +173,15 @@
       function showPagination(data) {
         $('.lists').append(
           '<div class="pager" data-js="pager">' +
-          '<div class="counter">' +
-          '<span class="counter-current">' + data.page + '</span>/<span class="counter-all">' + data.pageCount +
-          '</span>' +
-          '</div>' +
-          '<div class="btn-wrapper">' +
-          '<a class="btn-item" data-js="page-prev" href="">前へ</a>' +
-          '<a class="btn-item" data-js="page-next" href="">次へ</a>' +
-          '</div>' +
+            '<div class="counter">' +
+              '<span class="counter-current">' + data.page + '</span>/<span class="counter-all">' + data.pageCount + '</span>' +
+            '</div>' +
+            '<div class="btn-wrapper">' +
+              '<a class="btn-item" data-js="page-prev" href="">前へ</a>' +
+              '<a class="btn-item" data-js="page-next" href="">次へ</a>' +
+            '</div>' +
           '</div>'
-        )
+        );
         // disableをclassに付与する挙動を以下の関数で管理
         pagerDisabled(data);
       }
@@ -224,10 +216,10 @@
             $('.message').append('リクエスト過多です。しばらく時間を置いてからお試しください。');
             break;
           default:
-            $('.message').append('予期せぬエラーが発生しました。しばらく時間を置いてからお試しください。')
+            $('.message').append('予期せぬエラーが発生しました。しばらく時間を置いてからお試しください。');
         }
       }
-    })
+    });
   </script>
 </body>
 

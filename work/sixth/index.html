@@ -15,7 +15,111 @@
   </div>
   <script src="../../common/js/jquery.js"></script>
   <script>
-    // 回答はここに書いてね
+    const API_URL = 'https://pokeapi.co/api/v2/pokemon/';
+    const BALL_URL = 'https://pokeapi.co/api/v2/item/4';
+
+    function renderSearchButton() {
+      document.getElementById('wrapper').innerHTML = `
+        <button type="button" class="btn search-btn" id="pokemon_search">
+          ポケモンを探す
+        </button>
+      `;
+    }
+
+    function renderEncounter(name, image) {
+      const html = `
+        <p class="name">${name}</p>
+        <div>
+          <img class="img" src="${image}" alt="${name}">
+        </div>
+        <div>
+          <button class="btn" id="catch">捕まえる</button>
+          <button class="btn" data-js="reset">逃げる</button>
+        </div>
+      `;
+      document.getElementById('wrapper').innerHTML = html;
+    }
+
+    function renderCaught(image) {
+      const html = `
+        <p class="name">ゲットしました</p>
+        <div>
+          <img class="img" src="${image}" alt="モンスターボール">
+        </div>
+        <button class="btn" data-js="reset">戻る</button>
+      `;
+      document.getElementById('wrapper').innerHTML = html;
+    }
+
+    function renderEscaped() {
+      const html = `
+        <p class="text">逃げられてしまった...</p>
+        <button class="btn mt" data-js="reset">戻る</button>
+      `;
+      document.getElementById('wrapper').innerHTML = html;
+    }
+
+    function getJapaneseName(species) {
+      const japaneseName = species.names.find(function(item) {
+        return item.language.name === 'ja-Hrkt';
+      }) || species.names.find(function(item) {
+        return item.language.name === 'ja';
+      });
+      return japaneseName ? japaneseName.name : species.name;
+    }
+
+    function searchPokemon() {
+      const randomNumber = Math.floor(Math.random() * 151) + 1;
+      $.ajax({
+        url: API_URL + randomNumber,
+        method: 'GET'
+      }).done(function(res) {
+        const pokemonPng = res.sprites.front_default;
+        // 日本語名を取得
+        $.ajax({
+          url: res.species.url,
+          method: 'GET'
+        }).done(function(species) {
+          const pokemonName = getJapaneseName(species);
+          // 日本語名の取得後に画面表示
+          renderEncounter(pokemonName, pokemonPng);
+        }).fail(function() {
+          console.log('日本語名の取得に失敗しました');
+        });
+      }).fail(function() {
+        console.log('ポケモンの取得に失敗しました');
+      });
+    }
+
+    function catchPokemon() {
+      const randomNumber = Math.random();
+      if (randomNumber < 0.5) {
+        $.ajax({
+          url: BALL_URL,
+          method: 'GET'
+        }).done(function(res) {
+          const ballPng = res.sprites.default;
+          renderCaught(ballPng);
+        }).fail(function() {
+          console.log('モンスターボールの取得に失敗しました');
+        });
+      } else {
+        renderEscaped();
+      }
+    }
+
+    $(document).on('click', '#pokemon_search', function() {
+      searchPokemon();
+    });
+
+    $(document).on('click', '#catch', function() {
+      catchPokemon();
+    });
+
+    $(document).on('click', '[data-js="reset"]', function() {
+      renderSearchButton();
+    });
   </script>
+  }
 </body>
 </html>
